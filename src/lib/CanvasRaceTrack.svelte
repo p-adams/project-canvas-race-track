@@ -31,12 +31,18 @@
   }
 </script>
 
-<button on:click={() => cancelAnimationFrame(_id)}>stop</button>
-<button on:click={() => handleStart()}>start</button>
+<div class="Action-buttons">
+  <button on:click={() => cancelAnimationFrame(_id)}>stop</button>
+  <button on:click={() => handleStart()}>start</button>
+</div>
+
 <canvas bind:this={_canvas} width="300" height="300" />
 
 <style>
   canvas {
     border: 1px solid grey;
+  }
+  .Action-buttons {
+    margin-bottom: 4px;
   }
 </style>
