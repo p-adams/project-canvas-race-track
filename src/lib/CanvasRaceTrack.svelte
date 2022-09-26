@@ -3,9 +3,8 @@
 
   let _canvas: HTMLCanvasElement = null;
   let _ctx: CanvasRenderingContext2D;
-  let _rectangle = new Path2D();
   let _id = null;
-  let [_x, _y] = [10, 10];
+  let [_x, _y] = [0, 0];
   let cars = [];
   onMount(() => {
     _ctx = _canvas.getContext("2d");
@@ -15,16 +14,17 @@
 
   function drawCar(color) {
     _ctx.beginPath();
-    _rectangle.rect(_x, _y, 30, 30);
+    _ctx.rect(_x, _y, 30, 30);
     _ctx.fillStyle = color;
-    _ctx.fill(_rectangle);
+    _ctx.fill();
     _ctx.closePath();
   }
 
   function move() {
     _id = requestAnimationFrame(move);
+    _ctx.clearRect(0, 0, 300, 300);
     drawCar("red");
-    _x += 12;
+    _x += 2;
   }
   function handleStart() {
     _id = requestAnimationFrame(move);
