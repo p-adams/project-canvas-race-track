@@ -1,10 +1,14 @@
 <script lang="ts">
   import { onMount, afterUpdate } from "svelte";
   let speed = 2;
+  const DEFAULT_CAR_SIZE = 30;
   let _canvas: HTMLCanvasElement = null;
   let _ctx: CanvasRenderingContext2D;
   let _id = null;
   let [_x, _y] = [10, 10];
+  let dx = 12;
+  let dy = 12;
+  const OFFSET = 22;
   let cars = [];
   onMount(() => {
     _ctx = _canvas.getContext("2d");
@@ -14,7 +18,7 @@
 
   function drawCar(color) {
     _ctx.beginPath();
-    _ctx.rect(_x, _y, 30, 30);
+    _ctx.rect(_x, _y, DEFAULT_CAR_SIZE, DEFAULT_CAR_SIZE - 12);
     _ctx.fillStyle = color;
     _ctx.fill();
     _ctx.closePath();
@@ -24,18 +28,24 @@
     _id = requestAnimationFrame(move);
     _ctx.clearRect(0, 0, 300, 300);
     drawCar("red");
-    if (_x < 260 && _y === 10) {
-      // move right
-      _x += speed;
-    } else if (_x === 260 && _y < 260) {
+    if (_x + dx < _canvas.width - DEFAULT_CAR_SIZE && _y + dy === OFFSET) {
+      // move right;
+      _x += dx;
+    }
+    if (
+      _x + dx >= _canvas.width - DEFAULT_CAR_SIZE &&
+      _y + dy < _canvas.height + DEFAULT_CAR_SIZE
+    ) {
       // move down
-      _y += speed;
-    } else if (_y === 260 && _x > 10) {
-      // move back
-      _x -= speed;
-    } else if (_y <= 260) {
+      _y += dy;
+    }
+    if (_y + dy > _canvas.height - DEFAULT_CAR_SIZE) {
+      // move left
+      _x -= dx;
+    }
+    if (_x + dx === OFFSET) {
       // move up
-      _y -= speed;
+      _y -= dy;
     }
   }
   function handleStart() {
