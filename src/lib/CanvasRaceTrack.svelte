@@ -8,8 +8,9 @@
   let [_x, _y] = [10, 10];
   let dx = 12;
   let dy = 12;
-  const OFFSET = 22;
+  const OFFSET = 10 + dx;
   let cars = [];
+
   onMount(() => {
     _ctx = _canvas.getContext("2d");
     drawCar("orange");
@@ -28,6 +29,7 @@
     _id = requestAnimationFrame(move);
     _ctx.clearRect(0, 0, 300, 300);
     drawCar("red");
+    if (!_canvas) return;
     if (_x + dx < _canvas.width - DEFAULT_CAR_SIZE && _y + dy === OFFSET) {
       // move right;
       _x += dx;
