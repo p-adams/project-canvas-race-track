@@ -2,6 +2,8 @@
   import { onMount, afterUpdate } from "svelte";
   import { raceCar } from "../RaceCar";
   let _canvas: HTMLCanvasElement = null;
+  let canvasWidth = 500;
+  let canvasHeight = 400;
   let _ctx: CanvasRenderingContext2D;
   let _id = null;
   const greenCar = raceCar({
@@ -43,7 +45,7 @@
 
   function move() {
     _id = requestAnimationFrame(move);
-    _ctx.clearRect(0, 0, 300, 300);
+    _ctx.clearRect(0, 0, canvasWidth, canvasHeight);
     if (!_canvas) return;
     for (const car of cars) {
       drawCar(car);
@@ -81,7 +83,7 @@
   <button on:click={() => handleStart()}>start</button>
 </div>
 
-<canvas bind:this={_canvas} width="300" height="300" />
+<canvas bind:this={_canvas} width={canvasWidth} height={canvasHeight} />
 
 <style>
   canvas {
