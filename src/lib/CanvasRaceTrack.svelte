@@ -56,7 +56,6 @@
 </script>
 
 <div class="Action-buttons">
-  {speed}
   <button on:click={() => cancelAnimationFrame(_id)}>stop</button>
   <button on:click={() => handleStart()}>start</button>
   <input type="number" bind:value={speed} />
