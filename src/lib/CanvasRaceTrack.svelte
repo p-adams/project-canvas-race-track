@@ -4,18 +4,25 @@
   let _canvas: HTMLCanvasElement = null;
   let _ctx: CanvasRenderingContext2D;
   let _id = null;
-
-  let cars = [
-    Object.create(raceCar).init({
-      x: 10,
-      y: 10,
-      dx: 12,
-      dy: 12,
-      color: "green",
-      width: 30,
-      height: 18,
-    }),
-  ];
+  const greenCar = raceCar({
+    x: 10,
+    y: 10,
+    dx: 12,
+    dy: 12,
+    color: "green",
+    width: 30,
+    height: 18,
+  });
+  const redCar = raceCar({
+    x: 10,
+    y: 20,
+    dx: 12,
+    dy: 2,
+    color: "red",
+    width: 30,
+    height: 18,
+  });
+  let cars = [redCar];
 
   onMount(() => {
     _ctx = _canvas.getContext("2d");
@@ -39,6 +46,7 @@
     if (!_canvas) return;
     for (const car of cars) {
       drawCar(car);
+      console.log(car.y + car.dy, " foo ", car.offset);
       if (
         car.x + car.dx < _canvas.width - car.width &&
         car.y + car.dy === car.offset

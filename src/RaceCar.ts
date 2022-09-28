@@ -22,6 +22,7 @@ let RaceCar: Car = {
   width: 0,
   height: 0,
   init({ x, y, dx, dy, width, height, color }: CarItem) {
+    console.log("init");
     this.x = x;
     this.y = y;
     this.dx = dx;
@@ -36,4 +37,4 @@ let RaceCar: Car = {
   },
 };
 
-export const raceCar = RaceCar;
+export const raceCar = (car: CarItem): Car => Object.create(RaceCar).init(car);
