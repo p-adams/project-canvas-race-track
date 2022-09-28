@@ -1,4 +1,5 @@
 export type CarItem = {
+  id: string | null;
   x: number;
   y: number;
   dx: number;
@@ -6,6 +7,7 @@ export type CarItem = {
   width: number;
   height: number;
   color: string;
+  hasBoost?: boolean;
 };
 
 export type Car = CarItem & {
@@ -14,6 +16,7 @@ export type Car = CarItem & {
 };
 
 let RaceCar: Car = {
+  id: null,
   x: 0,
   y: 0,
   dx: 0,
@@ -21,7 +24,8 @@ let RaceCar: Car = {
   color: "",
   width: 0,
   height: 0,
-  init({ x, y, dx, dy, width, height, color }: CarItem) {
+  init({ id, x, y, dx, dy, width, height, color, hasBoost = false }: CarItem) {
+    this.id = id;
     this.x = x;
     this.y = y;
     this.dx = dx;
@@ -29,10 +33,11 @@ let RaceCar: Car = {
     this.color = color;
     this.width = width;
     this.height = height;
+    this.hasBoost = hasBoost;
     return this;
   },
   get offset() {
-    return 10 + this.dx;
+    return this.width;
   },
 };
 
