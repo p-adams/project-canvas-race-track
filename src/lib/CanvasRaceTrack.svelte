@@ -57,19 +57,7 @@
     ctx.fill();
     ctx.closePath();
   }
-
-  function _boost(car: Car) {
-    let speed = 120;
-    let diff = speed - 15;
-    if (car.hasBoost) {
-      if (car.x + car.dx > canvas.width / 3) {
-        car.x += speed * car.dx - car.dy - diff;
-      } else {
-        car.x += car.dx;
-      }
-    }
-  }
-
+  
   function move() {
     id = requestAnimationFrame(move);
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
