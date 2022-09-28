@@ -1,26 +1,34 @@
 <script lang="ts">
   import { onMount, afterUpdate } from "svelte";
-  let speed = 2;
-  const DEFAULT_CAR_SIZE = 30;
+  import { raceCar } from "../RaceCar";
   let _canvas: HTMLCanvasElement = null;
   let _ctx: CanvasRenderingContext2D;
   let _id = null;
-  let [_x, _y] = [10, 10];
-  let dx = 12;
-  let dy = 12;
-  const OFFSET = 10 + dx;
-  let cars = [];
+
+  let cars = [
+    Object.create(raceCar).init({
+      x: 10,
+      y: 10,
+      dx: 12,
+      dy: 12,
+      color: "green",
+      width: 30,
+      height: 18,
+    }),
+  ];
 
   onMount(() => {
     _ctx = _canvas.getContext("2d");
-    drawCar("orange");
+    for (const car of cars) {
+      drawCar(car);
+    }
   });
   afterUpdate(() => {});
 
-  function drawCar(color) {
+  function drawCar(car) {
     _ctx.beginPath();
-    _ctx.rect(_x, _y, DEFAULT_CAR_SIZE, DEFAULT_CAR_SIZE - 12);
-    _ctx.fillStyle = color;
+    _ctx.rect(car.x, car.y, car.width, car.height);
+    _ctx.fillStyle = car.color;
     _ctx.fill();
     _ctx.closePath();
   }
@@ -28,26 +36,31 @@
   function move() {
     _id = requestAnimationFrame(move);
     _ctx.clearRect(0, 0, 300, 300);
-    drawCar("red");
     if (!_canvas) return;
-    if (_x + dx < _canvas.width - DEFAULT_CAR_SIZE && _y + dy === OFFSET) {
-      // move right;
-      _x += dx;
-    }
-    if (
-      _x + dx >= _canvas.width - DEFAULT_CAR_SIZE &&
-      _y + dy < _canvas.height + DEFAULT_CAR_SIZE
-    ) {
-      // move down
-      _y += dy;
-    }
-    if (_y + dy > _canvas.height - DEFAULT_CAR_SIZE) {
-      // move left
-      _x -= dx;
-    }
-    if (_x + dx === OFFSET) {
-      // move up
-      _y -= dy;
+    for (const car of cars) {
+      drawCar(car);
+      if (
+        car.x + car.dx < _canvas.width - car.width &&
+        car.y + car.dy === car.offset
+      ) {
+        // move right;
+        car.x += car.dx;
+      }
+      if (
+        car.x + car.dx >= _canvas.width - car.width &&
+        car.y + car.dy < _canvas.height + car.width
+      ) {
+        // move down
+        car.y += car.dy;
+      }
+      if (car.y + car.dy > _canvas.height - car.width) {
+        // move left
+        car.x -= car.dx;
+      }
+      if (car.x + car.dx === car.offset) {
+        // move up
+        car.y -= car.dy;
+      }
     }
   }
   function handleStart() {
@@ -58,7 +71,6 @@
 <div class="Action-buttons">
   <button on:click={() => cancelAnimationFrame(_id)}>stop</button>
   <button on:click={() => handleStart()}>start</button>
-  <input type="number" bind:value={speed} />
 </div>
 
 <canvas bind:this={_canvas} width="300" height="300" />
