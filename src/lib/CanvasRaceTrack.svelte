@@ -15,9 +15,9 @@
   });
   const redCar = raceCar({
     x: 10,
-    y: 20,
-    dx: 4,
-    dy: 2,
+    y: 40,
+    dx: 12,
+    dy: 6,
     color: "red",
     width: 30,
     height: 18,
